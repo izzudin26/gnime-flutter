@@ -17,6 +17,7 @@ class PopularAnimeScreenState extends ConsumerState<PopularAnimeScreen> {
 
   void initFetch() async {
     final anime = ref.read(animeProvider);
+    if (anime.popularAnime.isNotEmpty) return;
     await anime.fetchPopularAnime();
   }
 
@@ -27,9 +28,10 @@ class PopularAnimeScreenState extends ConsumerState<PopularAnimeScreen> {
     Future.microtask(initFetch);
   }
 
-  void _scrollListener() {
+  void _scrollListener() async {
     if (_scrollController.position.extentAfter < 50) {
-      initFetch();
+      final anime = ref.read(animeProvider);
+      await anime.fetchPopularAnime();
     }
   }
 

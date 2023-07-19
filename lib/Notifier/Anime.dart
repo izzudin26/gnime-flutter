@@ -23,7 +23,7 @@ class AnimeNotifier extends ChangeNotifier {
     final data = await repo.getRecentEpisode(recentEpisodePage);
     recentEpisodes.addAll(data);
     isLoading = false;
-    ++recentEpisodePage;
+    recentEpisodePage += 1;
     notifyListeners();
   }
 
@@ -31,9 +31,10 @@ class AnimeNotifier extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     final repo = ref.read(gogonimeRepositoryProvider);
-    popularAnime = await repo.getPopularAnime(popularPage);
+    final data = await repo.getPopularAnime(popularPage);
+    popularAnime.addAll(data);
     isLoading = false;
-    ++popularPage;
+    popularPage += 1;
     notifyListeners();
   }
 }

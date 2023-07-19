@@ -17,6 +17,7 @@ class RecentAnimeScreenState extends ConsumerState<RecentAnimeScreen> {
 
   void initFetch() async {
     final anime = ref.read(animeProvider);
+    if (anime.recentEpisodes.isNotEmpty) return;
     await anime.fetchRecentEpisodes();
   }
 
@@ -27,9 +28,10 @@ class RecentAnimeScreenState extends ConsumerState<RecentAnimeScreen> {
     Future.microtask(initFetch);
   }
 
-  void _scrollListener() {
+  void _scrollListener() async {
     if (_scrollController.position.extentAfter < 50) {
-      initFetch();
+      final anime = ref.read(animeProvider);
+      await anime.fetchRecentEpisodes();
     }
   }
 
