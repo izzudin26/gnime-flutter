@@ -52,7 +52,7 @@ class RecentAnimeScreenState extends ConsumerState<RecentAnimeScreen> {
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20, mainAxisExtent: 250),
+                      crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20, mainAxisExtent: 230),
                   padding: const EdgeInsets.all(20),
                   itemCount: anime.recentEpisodes.length,
                   itemBuilder: (context, index) {

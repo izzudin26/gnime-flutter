@@ -4,7 +4,7 @@ import 'package:flutter_gogonime/Colors.dart' as kcolors;
 Text kRecentTitle(String title) {
   return Text(
     title,
-    style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+    style: const TextStyle(color: kcolors.primary, fontSize: 14, fontWeight: FontWeight.w600),
     softWrap: false,
     maxLines: 2,
     overflow: TextOverflow.ellipsis,

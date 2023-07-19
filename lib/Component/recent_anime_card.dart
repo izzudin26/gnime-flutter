@@ -19,8 +19,8 @@ class RecentAnimeCard extends StatelessWidget {
               child: Image.network(
                 recentEpisode.animeImg,
                 fit: BoxFit.cover,
-                height: 200,
-                width: 160,
+                width: 180,
+                height: 230,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
                   return Shimmer.fromColors(
@@ -43,13 +43,20 @@ class RecentAnimeCard extends StatelessWidget {
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: kcolors.slate600),
                 child: kFloatingEpisode("Episode ${recentEpisode.episodeNum}"),
               ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 5),
+                  decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.transparent, kcolors.bgSlate])),
+                  child: kRecentTitle(recentEpisode.animeTitle)),
             )
           ],
         ),
-        const SizedBox(
-          height: 5,
-        ),
-        Container(padding: const EdgeInsets.symmetric(horizontal: 13), child: kRecentTitle(recentEpisode.animeTitle))
       ],
     );
   }
