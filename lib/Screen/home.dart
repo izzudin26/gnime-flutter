@@ -39,6 +39,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                     },
                     child: Icon(
                       navigationIcon[e.key],
+                      size: 26,
                       color: currentPage == e.key ? kcolor.primary : Colors.grey.shade300,
                     ),
                   );
