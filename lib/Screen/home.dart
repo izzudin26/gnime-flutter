@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gogonime/Component/bottom_navigation.dart';
+import 'package:flutter_gogonime/Screen/popular.dart';
 import 'package:flutter_gogonime/Screen/recent.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +17,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeScreenState extends ConsumerState<HomeScreen> {
   int currentPage = 0;
 
-  List<IconData> navigationIcon = const [LucideIcons.layoutGrid, LucideIcons.monitorPlay, LucideIcons.search, LucideIcons.bookmark];
+  List<Widget> screen = const [RecentAnimeScreen(), PopularAnimeScreen()];
+  List<IconData> navigationIcon = const [LucideIcons.layoutGrid, LucideIcons.monitorUp, LucideIcons.search, LucideIcons.bookmark];
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          const RecentAnimeScreen(),
+          screen[currentPage],
           Positioned(
               bottom: 20,
               left: 20,

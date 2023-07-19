@@ -11,6 +11,7 @@ class AnimeNotifier extends ChangeNotifier {
   AnimeNotifier(this.ref);
 
   int recentEpisodePage = 1;
+  int popularPage = 1;
   bool isLoading = false;
   List<RecentEpisode> recentEpisodes = [];
   List<PopularAnime> popularAnime = [];
@@ -30,8 +31,9 @@ class AnimeNotifier extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     final repo = ref.read(gogonimeRepositoryProvider);
-    popularAnime = await repo.getPopularAnime();
+    popularAnime = await repo.getPopularAnime(popularPage);
     isLoading = false;
+    ++popularPage;
     notifyListeners();
   }
 }

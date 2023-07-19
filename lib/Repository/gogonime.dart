@@ -21,9 +21,9 @@ class GogonimeRepository {
     return (resBody as List).map((e) => RecentEpisode.fromJson(e)).toList();
   }
 
-  Future<List<PopularAnime>> getPopularAnime() async {
+  Future<List<PopularAnime>> getPopularAnime(int page) async {
     final client = ref.read(httpProviderService);
-    final url = Uri.parse("$BASE_URL/popular");
+    final url = Uri.parse("$BASE_URL/popular?page=$page");
     final res = await client.get(url);
     final resBody = jsonDecode(res.body);
     return (resBody as List).map((e) => PopularAnime.fromJson(e)).toList();
