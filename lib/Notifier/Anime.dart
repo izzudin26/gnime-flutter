@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gogonime/Model/detail_anime.dart';
 import 'package:flutter_gogonime/Model/popular_anime.dart';
 import 'package:flutter_gogonime/Model/recent_episode.dart';
 import 'package:flutter_gogonime/Repository/gogonime.dart';
@@ -36,5 +37,11 @@ class AnimeNotifier extends ChangeNotifier {
     isLoading = false;
     popularPage += 1;
     notifyListeners();
+  }
+
+  Future<Anime> detailAnime({required String animeId}) async {
+    final repo = ref.read(gogonimeRepositoryProvider);
+    final data = await repo.detailAnime(animeId: animeId);
+    return data;
   }
 }

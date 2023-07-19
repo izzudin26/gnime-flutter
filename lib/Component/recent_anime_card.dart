@@ -19,7 +19,7 @@ class RecentAnimeCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => DetailAnime(
+                  builder: (context) => DetailAnimeScreen(
                         imageUrl: popularAnime!.animeImg,
                         id: popularAnime!.animeId,
                         animeTitle: popularAnime!.animeTitle,

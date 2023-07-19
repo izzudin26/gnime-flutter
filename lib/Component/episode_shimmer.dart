@@ -6,69 +6,24 @@ class EpisodeShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Shimmer.fromColors(
+    return GridView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: 12,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, mainAxisSpacing: 10, crossAxisSpacing: 10, mainAxisExtent: 40),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
           baseColor: Colors.grey,
           highlightColor: Colors.grey.shade400,
           child: Container(
             decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5)),
             width: double.infinity,
-            height: 50,
+            height: double.infinity,
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Shimmer.fromColors(
-          baseColor: Colors.grey,
-          highlightColor: Colors.grey.shade400,
-          child: Container(
-            decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5)),
-            width: double.infinity,
-            height: 50,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Shimmer.fromColors(
-          baseColor: Colors.grey,
-          highlightColor: Colors.grey.shade400,
-          child: Container(
-            decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5)),
-            width: double.infinity,
-            height: 50,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Shimmer.fromColors(
-          baseColor: Colors.grey,
-          highlightColor: Colors.grey.shade400,
-          child: Container(
-            decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5)),
-            width: double.infinity,
-            height: 50,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Shimmer.fromColors(
-          baseColor: Colors.grey,
-          highlightColor: Colors.grey.shade400,
-          child: Container(
-            decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5)),
-            width: double.infinity,
-            height: 50,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-      ],
+        );
+      },
     );
   }
 }

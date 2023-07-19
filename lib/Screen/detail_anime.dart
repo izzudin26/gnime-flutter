@@ -1,21 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gogonime/Component/episode_card.dart';
 import 'package:flutter_gogonime/Component/episode_shimmer.dart';
 import 'package:flutter_gogonime/Component/synopsis_shimmer.dart';
+import 'package:flutter_gogonime/Model/detail_anime.dart';
+import 'package:flutter_gogonime/Notifier/Anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gogonime/Colors.dart' as kcolors;
 import 'package:flutter_gogonime/Style/text.dart' as ktext;
 
-class DetailAnime extends ConsumerStatefulWidget {
+class DetailAnimeScreen extends ConsumerStatefulWidget {
   final String id;
   final String imageUrl;
   final String animeTitle;
-  const DetailAnime({super.key, required this.imageUrl, required this.id, required this.animeTitle});
+  const DetailAnimeScreen({super.key, required this.imageUrl, required this.id, required this.animeTitle});
 
   @override
   DetailAnimeState createState() => DetailAnimeState();
 }
 
-class DetailAnimeState extends ConsumerState<DetailAnime> {
+class DetailAnimeState extends ConsumerState<DetailAnimeScreen> {
+  Anime? detail;
+
+  void initFetch() async {
+    AnimeNotifier anime = ref.read(animeProvider);
+    final result = await anime.detailAnime(animeId: widget.id);
+    setState(() {
+      detail = result;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(initFetch);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -26,11 +45,12 @@ class DetailAnimeState extends ConsumerState<DetailAnime> {
           children: [
             Hero(
                 tag: widget.animeTitle,
-                child: Image.network(
-                  widget.imageUrl,
-                  fit: BoxFit.cover,
-                  width: size.width,
-                  height: size.width,
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image.network(
+                    widget.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
                 )),
             Container(
               padding: const EdgeInsets.all(20),
@@ -46,7 +66,7 @@ class DetailAnimeState extends ConsumerState<DetailAnime> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const SynopsisShimmer(),
+                  detail == null ? const SynopsisShimmer() : ktext.kSubtitle(detail!.synopsis),
                   const SizedBox(
                     height: 20,
                   ),
@@ -54,7 +74,25 @@ class DetailAnimeState extends ConsumerState<DetailAnime> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const EpisodeShimmer()
+                  detail == null
+                      ? const EpisodeShimmer()
+                      : Container(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          height: size.height * .5,
+                          width: double.infinity,
+                          child: GridView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            itemCount: detail!.episodesList.length,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4, mainAxisSpacing: 10, crossAxisSpacing: 10, mainAxisExtent: 40),
+                            itemBuilder: (context, index) {
+                              final episode = detail!.episodesList[index];
+                              return EpisodeCard(episode: episode.episodeNum);
+                            },
+                          ),
+                        )
                 ],
               ),
             )

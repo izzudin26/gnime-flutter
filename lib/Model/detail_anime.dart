@@ -24,10 +24,10 @@ class Anime {
         type = json['type'],
         releasedDate = json['releasedDate'],
         status = json['status'],
-        genres = (json['genres'] as List<String>).map((e) => e).toList(),
+        genres = (json['genres'] as List<dynamic>).cast<String>(),
         otherNames = json['otherNames'],
         synopsis = json['synopsis'],
         animeImg = json['animeImg'],
-        totalEpisode = json['totalEpisode'],
-        episodesList = (json['episodeList'] as List).map((e) => EpisodesList.fromJson(e)).toList();
+        totalEpisode = json['totalEpisodes'],
+        episodesList = (json['episodesList'] as List).map((e) => EpisodesList.fromJson(e)).toList();
 }
