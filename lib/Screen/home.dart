@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gogonime/Component/bottom_navigation.dart';
 import 'package:flutter_gogonime/Screen/popular.dart';
 import 'package:flutter_gogonime/Screen/recent.dart';
+import 'package:flutter_gogonime/Screen/search.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -17,7 +18,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeScreenState extends ConsumerState<HomeScreen> {
   int currentPage = 0;
 
-  List<Widget> screen = const [RecentAnimeScreen(), PopularAnimeScreen()];
+  List<Widget> screen = const [RecentAnimeScreen(), PopularAnimeScreen(), SearchScreen()];
   List<IconData> navigationIcon = const [LucideIcons.layoutGrid, LucideIcons.monitorUp, LucideIcons.search, LucideIcons.bookmark];
 
   @override
