@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_gogonime/Model/detail_anime.dart';
 import 'package:flutter_gogonime/Model/popular_anime.dart';
 import 'package:flutter_gogonime/Model/recent_episode.dart';
+import 'package:flutter_gogonime/Model/search_anime.dart';
 import 'package:flutter_gogonime/Model/stream_url.dart';
 import 'package:flutter_gogonime/common.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,5 +44,13 @@ class GogonimeRepository {
     final res = await client.get(url);
     final resBody = jsonDecode(res.body);
     return StreamUrl.fromJson(resBody);
+  }
+
+  Future<List<SearchAnime>> getSearchAnime(String query) async {
+    final client = ref.read(httpProviderService);
+    final url = Uri.parse("$BASE_URL/search?keyw=$query");
+    final res = await client.get(url);
+    final resBody = jsonDecode(res.body);
+    return (resBody as List).map((e) => SearchAnime.fromJson(e)).toList();
   }
 }
