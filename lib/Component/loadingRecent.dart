@@ -12,7 +12,7 @@ class LoadingRecent extends StatelessWidget {
       shrinkWrap: true,
       padding: const EdgeInsets.all(20),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 10 / 16, crossAxisSpacing: 10, mainAxisSpacing: 10),
+          crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20, mainAxisExtent: 230),
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
