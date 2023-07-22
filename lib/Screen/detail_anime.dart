@@ -33,6 +33,9 @@ class DetailAnimeState extends ConsumerState<DetailAnimeScreen> {
   }
 
   void handlerStreamUrl(String episodeId) async {
+    setState(() {
+      streamUrl = null;
+    });
     final anime = ref.read(animeProvider);
     StreamUrl s = await anime.getStreamUrls(episodeId: episodeId);
     setState(() {
