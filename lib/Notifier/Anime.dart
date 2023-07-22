@@ -3,6 +3,7 @@ import 'package:flutter_gogonime/Model/detail_anime.dart';
 import 'package:flutter_gogonime/Model/popular_anime.dart';
 import 'package:flutter_gogonime/Model/recent_episode.dart';
 import 'package:flutter_gogonime/Model/search_anime.dart';
+import 'package:flutter_gogonime/Model/stream_url.dart';
 import 'package:flutter_gogonime/Repository/gogonime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -63,5 +64,10 @@ class AnimeNotifier extends ChangeNotifier {
     searchAnime = data;
     isSearchLoading = false;
     notifyListeners();
+  }
+
+  Future<StreamUrl> getStreamUrls({required String episodeId}) async {
+    final repo = ref.read(gogonimeRepositoryProvider);
+    return await repo.getStreamUrls(episodeId: episodeId);
   }
 }

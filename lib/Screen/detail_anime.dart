@@ -3,10 +3,12 @@ import 'package:flutter_gogonime/Component/episode_card.dart';
 import 'package:flutter_gogonime/Component/episode_shimmer.dart';
 import 'package:flutter_gogonime/Component/synopsis_shimmer.dart';
 import 'package:flutter_gogonime/Model/detail_anime.dart';
+import 'package:flutter_gogonime/Model/stream_url.dart';
 import 'package:flutter_gogonime/Notifier/Anime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gogonime/Colors.dart' as kcolors;
 import 'package:flutter_gogonime/Style/text.dart' as ktext;
+import 'package:lecle_yoyo_player/lecle_yoyo_player.dart';
 
 class DetailAnimeScreen extends ConsumerStatefulWidget {
   final String id;
@@ -20,12 +22,21 @@ class DetailAnimeScreen extends ConsumerStatefulWidget {
 
 class DetailAnimeState extends ConsumerState<DetailAnimeScreen> {
   Anime? detail;
+  StreamUrl? streamUrl;
 
   void initFetch() async {
     AnimeNotifier anime = ref.read(animeProvider);
     final result = await anime.detailAnime(animeId: widget.id);
     setState(() {
       detail = result;
+    });
+  }
+
+  void handlerStreamUrl(String episodeId) async {
+    final anime = ref.read(animeProvider);
+    StreamUrl s = await anime.getStreamUrls(episodeId: episodeId);
+    setState(() {
+      streamUrl = s;
     });
   }
 
@@ -43,15 +54,17 @@ class DetailAnimeState extends ConsumerState<DetailAnimeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Hero(
-                tag: widget.animeTitle,
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Image.network(
-                    widget.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-                )),
+            streamUrl == null
+                ? Hero(
+                    tag: widget.animeTitle,
+                    child: AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: Image.network(
+                        widget.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ))
+                : YoYoPlayer(url: streamUrl!.sources[0].file, aspectRatio: 16 / 9),
             Container(
               padding: const EdgeInsets.all(20),
               width: double.infinity,
@@ -89,7 +102,10 @@ class DetailAnimeState extends ConsumerState<DetailAnimeScreen> {
                                 crossAxisCount: 4, mainAxisSpacing: 10, crossAxisSpacing: 10, mainAxisExtent: 40),
                             itemBuilder: (context, index) {
                               final episode = detail!.episodesList[index];
-                              return EpisodeCard(episode: episode.episodeNum);
+                              return EpisodeCard(
+                                episode: episode.episodeNum,
+                                onTap: () => handlerStreamUrl(episode.episodeId),
+                              );
                             },
                           ),
                         )
