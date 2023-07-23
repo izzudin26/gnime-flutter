@@ -52,6 +52,8 @@ class DetailAnimeState extends ConsumerState<DetailAnimeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    AnimeNotifier anime = ref.watch(animeProvider);
+
     return Scaffold(
       backgroundColor: kcolors.bgSlate,
       body: SingleChildScrollView(
@@ -74,7 +76,31 @@ class DetailAnimeState extends ConsumerState<DetailAnimeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ktext.kTitleDetail(widget.animeTitle),
+                  Row(
+                    children: [
+                      ktext.kTitleDetail(widget.animeTitle),
+                      const Spacer(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      detail != null
+                          ? InkWell(
+                              onTap: () {
+                                final isExist = anime.isSaveInBookmark(detail!);
+                                if (isExist) {
+                                  anime.removeBookmarks(widget.id);
+                                  return;
+                                }
+                                anime.addBookmarks(widget.id, detail!);
+                              },
+                              child: Icon(
+                                anime.isSaveInBookmark(detail!) ? Icons.bookmark : Icons.bookmark_outline,
+                                color: kcolors.primary,
+                              ),
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
