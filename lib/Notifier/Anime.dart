@@ -6,12 +6,12 @@ import 'package:flutter_gogonime/Model/search_anime.dart';
 import 'package:flutter_gogonime/Model/stream_url.dart';
 import 'package:flutter_gogonime/Repository/gogonime.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 
 final animeProvider = ChangeNotifierProvider<AnimeNotifier>((ref) => AnimeNotifier(ref));
 
 class AnimeNotifier extends ChangeNotifier {
   final Ref ref;
-  AnimeNotifier(this.ref);
 
   int recentEpisodePage = 1;
   int popularPage = 1;
@@ -22,6 +22,37 @@ class AnimeNotifier extends ChangeNotifier {
   List<RecentEpisode> recentEpisodes = [];
   List<PopularAnime> popularAnime = [];
   List<SearchAnime> searchAnime = [];
+
+  late Box<Anime> _animeBox;
+  List<Anime> bookmarks = [];
+
+  AnimeNotifier(this.ref) {
+    initBookmarks();
+  }
+
+  void initBookmarks() async {
+    final b = await Hive.openBox<Anime>('bookmarks');
+    _animeBox = b;
+    bookmarks = b.values.toList();
+  }
+
+  void addBookmarks(String key, Anime anime) async {
+    bookmarks.add(anime);
+    await _animeBox.put(key, anime);
+    notifyListeners();
+  }
+
+  void removeBookmarks(String key) async {
+    final a = _animeBox.get(key);
+    if (a == null) return;
+    bookmarks.remove(a);
+    notifyListeners();
+  }
+
+  bool isSaveInBookmark(Anime a) {
+    final exist = bookmarks.indexOf(a);
+    return exist != -1;
+  }
 
   void setSearchKeyword(String val) {
     searchKeyword = val;
