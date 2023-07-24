@@ -53,6 +53,9 @@ class Anime {
   @HiveField(9)
   List<EpisodesList> episodesList;
 
+  @HiveField(10)
+  String? id;
+
   Anime(
       {required this.animeImg,
       required this.animeTitle,
@@ -63,6 +66,7 @@ class Anime {
       required this.status,
       required this.synopsis,
       required this.totalEpisode,
+      this.id,
       required this.type});
 
   Anime.fromJson(Map<String, dynamic> json)
