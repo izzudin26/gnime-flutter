@@ -47,6 +47,7 @@ class AnimeNotifier extends ChangeNotifier {
     final a = _animeBox.get(key);
     if (a == null) return;
     bookmarks.remove(a);
+    _animeBox.delete(key);
     notifyListeners();
   }
 
