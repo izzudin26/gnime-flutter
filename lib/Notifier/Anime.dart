@@ -50,7 +50,7 @@ class AnimeNotifier extends ChangeNotifier {
   }
 
   bool isSaveInBookmark(Anime a) {
-    final exist = bookmarks.indexOf(a);
+    final exist = bookmarks.indexWhere((e) => e.animeTitle == a.animeTitle);
     return exist != -1;
   }
 
