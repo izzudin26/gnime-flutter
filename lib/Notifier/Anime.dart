@@ -37,6 +37,7 @@ class AnimeNotifier extends ChangeNotifier {
   }
 
   void addBookmarks(String key, Anime anime) async {
+    anime.id = key;
     bookmarks.add(anime);
     await _animeBox.put(key, anime);
     notifyListeners();
