@@ -78,7 +78,7 @@ class DetailAnimeState extends ConsumerState<DetailAnimeScreen> {
                 children: [
                   Row(
                     children: [
-                      ktext.kTitleDetail(widget.animeTitle),
+                      SizedBox(width: size.width * .8, child: ktext.kTitleDetail(widget.animeTitle)),
                       const Spacer(),
                       const SizedBox(
                         height: 10,
